@@ -9,14 +9,16 @@
       </UFormGroup>
   
       <UButton type="submit" >
-        Submit
+        Register
       </UButton>
     </UForm>
   </template>
-  
 
+  
+  <!-- ******************** logic ************************ -->
   <script setup lang="ts">
   import { z } from 'zod'
+  import { ref } from 'vue'
   import type { FormSubmitEvent } from '#ui/types'
 
   
@@ -30,7 +32,7 @@
 
 type Schema = z.output<typeof schema>
 
-const state = reactive({
+const state = ref({
   email: undefined,
   password: undefined
 })
@@ -45,3 +47,4 @@ async function onSubmit (event: FormSubmitEvent<Schema>) {
 }
 }
   </script>
+  <!-- ******************** logic ends ************************ -->

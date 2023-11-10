@@ -9,6 +9,7 @@
             </template>
 
             <slot />
+            <UNotifications />
         </UCard>
     </UContainer>
 </template>

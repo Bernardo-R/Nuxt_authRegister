@@ -8,18 +8,19 @@
         <UInput v-model="state.password" type="password" />
       </UFormGroup>
   
-      <UButton type="submit" >
-        login
+      <UButton type="submit" class="mb-4">
+        Login
       </UButton>
     </UForm>
   </template>
   
-
+<!-- ******************** logic ************************ -->
   <script setup lang="ts">
   import { z } from 'zod'
+  import { ref } from 'vue';
   import type { FormSubmitEvent } from '#ui/types'
 
-  
+  const toast = useToast()
 
   const {login} = useFirebaseAuth()
 
@@ -30,18 +31,25 @@
 
 type Schema = z.output<typeof schema>
 
-const state = reactive({
+const state = ref({
   email: undefined,
   password: undefined
 })
 
 async function onSubmit (event: FormSubmitEvent<Schema>) {
-  // Do something with data
-  console.log(event.data)
   try {
     await login(event.data.email, event.data.password)
+    toast.add({
+      title: "Loading...",
+      timeout: 2500,
+      callback: async() =>{
+        await navigateTo('/admin') //routing user to admin
+      }
+    })
   } catch (error) {
     console.log(error)
 }
 }
   </script>
+  
+  <!-- ******************** logic ends ************************ -->

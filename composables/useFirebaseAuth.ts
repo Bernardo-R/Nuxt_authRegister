@@ -1,10 +1,10 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 export const useFirebaseAuth = () => {
 
     const {$auth} = useNuxtApp() //to get auth from my firebase.client.ts file
     
-    const register =async (email:string, password: string) => {
+    const register = async (email:string, password: string) => {
         try {
             const userCredential = await createUserWithEmailAndPassword($auth, email, password);
             const user = userCredential.user;
@@ -14,7 +14,7 @@ export const useFirebaseAuth = () => {
         }
     };
 
-    const login =async (email:string, password: string) => {
+    const login = async (email:string, password: string) => {
         try {
             const userCredential = await signInWithEmailAndPassword($auth, email, password);
             const user = userCredential.user;
@@ -24,8 +24,16 @@ export const useFirebaseAuth = () => {
         }
     }
 
+    const logOut =async () => {
+         await signOut($auth)
+         await navigateTo('/login')
+
+         
+        
+    }
 
 
-    return{register, login};
+
+    return{register, login, logOut};
 
 }
